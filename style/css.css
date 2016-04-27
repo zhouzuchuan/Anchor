@@ -1,0 +1,50 @@
+/*
+ * @File Name:     css.css
+ * @Create By:     zhouzuchuan
+ * @Create Time:   2016-04-27 09:34:07
+ * @Modified By:   zhouzuchuan
+ * @Modified Time: 2016-04-27 09:34:19
+ */
+
+
+@charset "utf-8";
+
+* { margin: 0; padding: 0;}
+body { width: 1000px; margin: 500px auto 600px;}
+*html, *html body { background-image: url(about:blank);background-attachment:fixed;}
+
+
+.box {
+  background: #ccc;
+  color: #666;
+  line-height: 300px;
+  font-size: 20px;
+  text-align: center;
+  font-family: Microsoft YaHei;
+  margin-top: 30px;
+}
+.box.current {
+  background: red;
+  color: #fff;
+}
+.posBox {
+  position: fixed;
+  _position: absolute;
+  _top: expression(eval(document.documentElement.clientHeight/2 + document.documentElement.scrollTop));
+  left: 10px;
+  top: 0;
+  border: 1px solid #666;
+  display: inline-block;
+  width: 80px;
+}
+.posBox li {
+  display: block;
+  padding: 2px 5px;
+  margin: 2px 5px;
+  background: #ddd;
+  text-align: center;
+}
+.posBox li.current {
+  background: red;
+  color: #fff;
+}
