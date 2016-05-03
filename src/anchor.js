@@ -3,12 +3,12 @@
  * @Create By:     zhouzuchuan
  * @Create Time:   2016-03-15 09:08:17
  * @Modified By:   zhouzuchuan
- * @Modified Time: 2016-04-26 08:46:07
+ * @Modified Time: 2016-05-03 10:35:57
  */
 
-'use strict';
-
 ;(function ($, window, document) {
+
+    'use strict';
 
     function Anchor (options) {
         if (this === window) return new Anchor(options);
@@ -42,7 +42,7 @@
               item[index].top = et;
               item[index].height = eh;
               // 储存所需要的对比位置数据
-              arr.push(et, et + eh, et - self.baseLine)
+              arr.push(et, et + eh, et - self.baseLine);
           });
           // 储存区域的活动范围
           self.mixin = [];
@@ -98,6 +98,7 @@
                       break;
                   case 'bottom':
                       this.baseLine = win.height();
+                      break;
                   default:
                       this.baseLine = 0;
                       break;
@@ -119,7 +120,7 @@
           return {
               btn: das.btn,
               main: das.main
-          }
+          };
       },
       // 处理数组
       _dealArray: function () {
@@ -144,13 +145,13 @@
                   btn = main = $.trim(arg);
                   break;
               default:
-                  btn = main = null
+                  btn = main = null;
                   break;
             }
           return {
               btn: removePoint(replaceBrackets(btn)),
               main: removePoint(replaceBrackets(main))
-          }
+          };
       },
       // 点击函数
       _clickHandler: function (e) {
@@ -163,32 +164,36 @@
               targetMain = $('[' + ds.main + '=' + target.attr(ds.btn) + ']'),
               key = target.attr(ds.btn),
               Elem = document.documentElement || document.body,
-              html =  /webkit/.test(navigator.userAgent.toLowerCase()) ? 'body' : 'html',
+              html =  /webkit/.test(window.navigator.userAgent.toLowerCase()) ? 'body' : 'html',
               timer;
 
           if (target.hasClass(dac.btn) || targetMain.hasClass(dac.main)) return;
-          clearTimeout(self._timer);
+          window.clearTimeout(self._timer);
           this.clickAndScrollSwitch = false;
           for (var i = 0, len = self.collection.length; i < len; i += 1) {
               var coll = self.collection;
               if (coll[i].key !== key) continue;
+              run (coll);
+              self._removeClass();
+              self._addClass(i);
+          }
+          function run () {
+              var coll = arguments[0];
               if (da.enabled) {
                   // $(window).off('scroll.zzc_anchor');
                   $(html).stop().animate({'scrollTop': coll[i].top}, da.speed, da.easing, function () {
                       da.callback.call(self);
                       // $(window).on({'scroll.zzc_anchor': self._onScrollEvent()});
-                      self._timer = setTimeout(function () {
+                      self._timer = window.setTimeout(function () {
                           self.clickAndScrollSwitch = true;
                       }, opt.scrollDelay);
                   });
               } else {
                   Elem.scrollTop = coll[i].top;
-                  self._timer = setTimeout(function () {
+                  self._timer = window.setTimeout(function () {
                       self.clickAndScrollSwitch = true;
                   }, opt.scrollDelay);
               }
-              self._removeClass();
-              self._addClass(i);
           }
       },
       // 滚动函数
@@ -223,11 +228,11 @@
         // 监听的高度没有改变 跳出本次循环
         if (chuan === self.currentMaxRangValue) return;
         self.currentMaxRangValue = chuan;
-        for (var i = 0 , len = coll.length; i < len; i += 1 ) {
-            var ct = coll[i].top;
-            if (ct !== self.currentMaxRangValue) continue;
+        for (var j = 0 , all = coll.length; j < all; j += 1 ) {
+            var ct2 = coll[j].top;
+            if (ct2 !== self.currentMaxRangValue) continue;
             self._removeClass();
-            self._addClass(i);
+            self._addClass(j);
         }
       },
       _removeClass: function () {
@@ -275,7 +280,7 @@
           return function (e) {
               e.stopPropagation();
               self._clickHandler.apply(self,arguments);
-          }
+          };
       },
       // 绑定滚动事件
       _onScrollEvent: function () {
@@ -285,18 +290,18 @@
           return function (e) {
               if (!switchScrollDelay) return;
               switchScrollDelay = false;
-              setTimeout(function () {
+              window.setTimeout(function () {
                   self._scrollHandler();
                   switchScrollDelay = true;
               }, self.options.scrollDelay);
-          }
+          };
       }
 
-    }
+    };
 
     // 替换'[]'
     function replaceBrackets (str) {
-        return (/^\[[\S]+\]$/ig).test(str) ? str.slice(1,-1) : str
+        return (/^\[[\S]+\]$/ig).test(str) ? str.slice(1,-1) : str;
     }
     function removePoint (str) {
         return (/^\./).test(str) ? str.slice(1) : str;
